@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const items = require("./routes/items");
+import router from "./routes/items.js";
 
 app.use(express.json());
-app.use("/items", items);
+app.use("/items", router);
 app.use(express.urlencoded({ extended: true }));
 
 //port
