@@ -21,4 +21,4 @@ const store = [
   },
 ];
 
-module.exports = store;
+export default store;
