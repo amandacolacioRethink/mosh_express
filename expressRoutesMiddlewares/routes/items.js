@@ -1,15 +1,14 @@
-const express = require("express");
-const Joi = require("joi");
-const app = express.Router();
-const items = require("../store_db");
+import express from "express";
+import Joi from "joi";
+const router = express.Router();
+import items from "../store_db.js";
 
-// GET /items
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send(items);
 });
 
 //GET /items/:id
-app.get("/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const item = items.find((i) => i.id === parseInt(req.params.id));
   if (!item)
     return res.status(404).send("The item with the given ID was not found.");
@@ -17,7 +16,7 @@ app.get("/:id", (req, res) => {
 });
 
 // POST /item
-app.post("/", (req, res) => {
+router.post("/", (req, res) => {
   const { error } = validateItem(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -31,7 +30,7 @@ app.post("/", (req, res) => {
 });
 
 //PUT /items/:id
-app.put("/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   const item = items.find((i) => i.id === parseInt(req.params.id));
   if (!item)
     return res.status(404).send("The item with the given ID was not found.");
@@ -44,7 +43,7 @@ app.put("/:id", (req, res) => {
 });
 
 // DELETE /items/:id
-app.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   const item = items.find((i) => i.id === parseInt(req.params.id));
   if (!item)
     return res.status(404).send("The item with the given ID was not found.");
@@ -63,4 +62,4 @@ function validateItem(item) {
   return Joi.validate(item, schema);
 }
 
-module.exports = app;
+export default router;
